@@ -8,6 +8,8 @@ import Prism from "prismjs";
 const io = require("socket.io-client");
 var socket = null;
 
+const API_URL = process.env.API_URL || '';
+
 class JobList extends React.Component {
   state = {
     sortField: "-id",
@@ -85,7 +87,7 @@ class JobList extends React.Component {
       throw("no API token found");
     }
     this.getJobsData();
-    socket = io(process.env.API_URL, {query: {jwt: credentials}});
+    socket = io(API_URL, {query: {jwt: credentials}});
     socket.on('connect', (data) => {
       console.log('Websocket connected!');
       var newLogLines = [];
@@ -170,7 +172,7 @@ class JobList extends React.Component {
         filterValue;
     }
     fetch(
-      process.env.API_URL +
+      API_URL +
       "/api/v1.0/jobs?sort=" +
       sortField +
       filterParams +

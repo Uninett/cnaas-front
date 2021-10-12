@@ -5,6 +5,8 @@ import getData from "../../utils/getData";
 import FirmwareError from "./FirmwareError";
 import { Form, Confirm, Select } from "semantic-ui-react";
 
+const API_URL = process.env.API_URL || '';
+
 class FirmwareStep2 extends React.Component {
   state = {
     filename: null,
@@ -46,7 +48,7 @@ class FirmwareStep2 extends React.Component {
 
   getFirmwareFiles() {
     const credentials = localStorage.getItem("token");
-    let url = process.env.API_URL + "/api/v1.0/firmware";
+    let url = API_URL + "/api/v1.0/firmware";
     getData(url, credentials).then(data => {
       console.log("this should be data", data);
       {

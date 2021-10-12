@@ -3,6 +3,8 @@ import { Container, Grid, Popup } from "semantic-ui-react";
 import checkResponseStatus from "../utils/checkResponseStatus";
 import getData from "../utils/getData";
 
+const API_URL = process.env.API_URL || '';
+
 class Dashboard extends React.Component {
   state = {
     commitInfo: {},
@@ -20,7 +22,7 @@ class Dashboard extends React.Component {
 
   getRepoStatus = (repo_name) => {
     const credentials = localStorage.getItem("token");
-    let url = process.env.API_URL + "/api/v1.0/repository/" + repo_name;
+    let url = API_URL + "/api/v1.0/repository/" + repo_name;
     let newCommitInfo = this.state.commitInfo;
     getData(url, credentials).then(data => {
       // console.log("this should be data", data);
@@ -41,7 +43,7 @@ class Dashboard extends React.Component {
   getDeviceCount(name, filter) {
     const credentials = localStorage.getItem("token");
     fetch(
-      process.env.API_URL +
+      API_URL +
       "/api/v1.0/devices?" + filter,
       {
         method: "GET",
@@ -65,7 +67,7 @@ class Dashboard extends React.Component {
 
   getSystemVersion = () => {
     const credentials = localStorage.getItem("token");
-    let url = process.env.API_URL + "/api/v1.0/system/version";
+    let url = API_URL + "/api/v1.0/system/version";
     let newSystemVersion = this.state.systemVersion;
     getData(url, credentials).then(data => {
       // console.log("this should be data", data);

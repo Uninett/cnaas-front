@@ -12,6 +12,7 @@ import queryString from 'query-string';
 import Prism from "prismjs";
 const io = require("socket.io-client");
 var socket = null;
+const API_URL = process.env.API_URL || '';
 
 class ConfigChange extends React.Component {
   getInitialState() {
@@ -79,7 +80,7 @@ class ConfigChange extends React.Component {
   deviceSyncStart = (options) => {
     console.log("Starting sync devices");
     const credentials = localStorage.getItem("token");
-    let url = process.env.API_URL + "/api/v1.0/device_syncto";
+    let url = API + "/api/v1.0/device_syncto";
     let dataToSend = this.getCommitTarget();
     dataToSend["dry_run"] = true;
     dataToSend["comment"] = this.state.job_comment;
@@ -153,7 +154,7 @@ class ConfigChange extends React.Component {
 
   pollJobStatus = (job_id, dry_run) => {
     const credentials = localStorage.getItem("token");
-    let url = process.env.API_URL + `/api/v1.0/job/${job_id}`;
+    let url = API_URL + `/api/v1.0/job/${job_id}`;
 
     if (dry_run === true) {
       getData(url, credentials).then(data => {
@@ -232,7 +233,7 @@ class ConfigChange extends React.Component {
 
   componentDidMount(){
     const credentials = localStorage.getItem("token");
-    socket = io(process.env.API_URL, {query: {jwt: credentials}});
+    socket = io(API_URL, {query: {jwt: credentials}});
     socket.on('connect', function(data) {
       console.log('Websocket connected!');
       var ret = socket.emit('events', {'loglevel': 'DEBUG'});

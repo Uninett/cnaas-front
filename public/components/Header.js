@@ -1,6 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
+const API_URL = process.env.API_URL || '';
+
 class Header extends React.Component {
   loggedInLinks = () => {
     if (localStorage.getItem("token") !== null) {
@@ -33,7 +35,7 @@ class Header extends React.Component {
     return (
       <header>
         <nav>
-          <h1>CNaaS NMS: {process.env.API_URL.split("/")[2]}</h1>
+          <h1>CNaaS NMS: {API_URL.split("/")[2]}</h1>
           <ul>
             <NavLink exact activeClassName="active" to={`/`}>
               <li key="nav1">Login</li>

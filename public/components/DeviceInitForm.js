@@ -5,6 +5,8 @@ import { Button, Select, Input, Icon, Modal, Accordion } from 'semantic-ui-react
 import checkResponseStatus from "../utils/checkResponseStatus";
 import checkJsonResponse from "../utils/checkJsonResponse";
 
+const API_URL = process.env.API_URL || '';
+
 class DeviceInitForm extends React.Component {
   state = {
       hostname: "",
@@ -73,7 +75,7 @@ class DeviceInitForm extends React.Component {
 
   initCheck(device_id, hostname, device_type, mlag_peer_hostname = null, mlag_peer_id = null) {
     const credentials = localStorage.getItem("token");
-    let url = process.env.API_URL + "/api/v1.0/device_initcheck/" + device_id;
+    let url = API_URL + "/api/v1.0/device_initcheck/" + device_id;
     let job_id = null;
     let dataToSend = {
       hostname: hostname,
@@ -107,7 +109,7 @@ class DeviceInitForm extends React.Component {
   submitInitJob(device_id, hostname, device_type, mlag_peer_hostname = null, mlag_peer_id = null) {
     console.log("Starting device init");
     const credentials = localStorage.getItem("token");
-    let url = process.env.API_URL + "/api/v1.0/device_init/" + device_id;
+    let url = API_URL + "/api/v1.0/device_init/" + device_id;
     let job_id = null;
     let dataToSend = {
       hostname: hostname,
@@ -141,7 +143,7 @@ class DeviceInitForm extends React.Component {
   getMlagPeerCandidates(device_id) {
     const credentials = localStorage.getItem("token");
     fetch(
-      process.env.API_URL +
+      API_URL +
       "/api/v1.0/devices?filter[state]=DISCOVERED" +
       "&per_page=100",
       {

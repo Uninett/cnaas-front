@@ -2,6 +2,8 @@ import React from "react";
 import checkResponseStatus from "../utils/checkResponseStatus";
 import { Icon } from 'semantic-ui-react'
 
+const API_URL = process.env.API_URL || '';
+
 class GroupList extends React.Component {
   state = {
     groupData: {},
@@ -19,7 +21,7 @@ class GroupList extends React.Component {
     // Build filter part of the URL to only return specific devices from the API
     // TODO: filterValue should probably be urlencoded?
     fetch(
-      process.env.API_URL + "/api/v1.0/groups",
+      API_URL + "/api/v1.0/groups",
       {
         method: "GET",
         headers: {
