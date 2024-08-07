@@ -3,6 +3,8 @@ import getData from "../../utils/getData";
 import { putData } from "../../utils/sendData";
 import { Popup } from "semantic-ui-react";
 
+const API_URL = process.env.API_URL || '';
+
 class ConfigChangeStep1 extends React.Component {
   state = {
     commitInfo: {},
@@ -14,7 +16,7 @@ class ConfigChangeStep1 extends React.Component {
 
   getRepoStatus = (repo_name) => {
     const credentials = localStorage.getItem("token");
-    let url = process.env.API_URL + "/api/v1.0/repository/" + repo_name;
+    let url = API_URL + "/api/v1.0/repository/" + repo_name;
     let newCommitInfo = this.state.commitInfo;
     getData(url, credentials).then(data => {
       // console.log("this should be data", data);
@@ -40,7 +42,7 @@ class ConfigChangeStep1 extends React.Component {
     this.props.setRepoWorking(true);
 
     const credentials = localStorage.getItem("token");
-    let url = process.env.API_URL + "/api/v1.0/repository/" + repo_name;
+    let url = API_URL + "/api/v1.0/repository/" + repo_name;
     let dataToSend = { action: "REFRESH" };
     let newCommitInfo = this.state.commitInfo;
 

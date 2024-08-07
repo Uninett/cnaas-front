@@ -1,6 +1,8 @@
 import React from "react";
 import getData from "../../utils/getData";
 
+const API_URL = process.env.API_URL || '';
+
 class FirmwareStep1 extends React.Component {
   state = {
     firmwareInfo: {},
@@ -9,7 +11,7 @@ class FirmwareStep1 extends React.Component {
   getFirmwareStatus = (commitTarget) => {
     const credentials = localStorage.getItem("token");
     if (commitTarget.hostname !== undefined) {
-      let url = process.env.API_URL + "/api/v1.0/devices?filter[hostname]=" + commitTarget.hostname;
+      let url = API_URL + "/api/v1.0/devices?filter[hostname]=" + commitTarget.hostname;
       getData(url, credentials).then(data => {
         console.log("this should be device data", data);
         {
@@ -24,7 +26,7 @@ class FirmwareStep1 extends React.Component {
         }
       });
     } else if (commitTarget.group !== undefined) {
-      let url = process.env.API_URL + "/api/v1.0/groups/" + commitTarget.group + "/os_version";
+      let url = API_URL + "/api/v1.0/groups/" + commitTarget.group + "/os_version";
       getData(url, credentials).then(data => {
         console.log("this should be group os_version data", data);
         {

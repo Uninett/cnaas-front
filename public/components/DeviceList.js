@@ -7,6 +7,8 @@ import queryString from 'query-string';
 const io = require("socket.io-client");
 var socket = null;
 
+const API_URL = process.env.API_URL || '';
+
 class DeviceList extends React.Component {
   state = {
     sortField: "id",
@@ -140,7 +142,7 @@ class DeviceList extends React.Component {
     } else {
       this.getDevicesData();
     }
-    socket = io(process.env.API_URL, {query: {jwt: credentials}});
+    socket = io(API_URL, {query: {jwt: credentials}});
     socket.on('connect', function(data) {
       console.log('Websocket connected!');
       var ret = socket.emit('events', {'update': 'device'});
@@ -256,7 +258,7 @@ class DeviceList extends React.Component {
       }
     }
     fetch(
-      process.env.API_URL +
+      API_URL +
       "/api/v1.0/devices?sort=" +
       sortField +
       filterParams +
@@ -301,7 +303,7 @@ class DeviceList extends React.Component {
   getInterfacesData(hostname) {
     const credentials = localStorage.getItem("token");
     fetch(
-      process.env.API_URL + "/api/v1.0/device/" + hostname + "/interfaces",
+      API_URL + "/api/v1.0/device/" + hostname + "/interfaces",
       {
         method: "GET",
         headers: {
@@ -413,7 +415,7 @@ class DeviceList extends React.Component {
     console.log("Update facts for hostname: "+hostname);
     const credentials = localStorage.getItem("token");
 
-    let url = process.env.API_URL + "/api/v1.0/device_update_facts";
+    let url = API_URL + "/api/v1.0/device_update_facts";
     let job_id = null;
     let dataToSend = {
       hostname: hostname
@@ -442,7 +444,7 @@ class DeviceList extends React.Component {
     console.log("Change state for device_id: "+device_id);
     const credentials = localStorage.getItem("token");
 
-    let url = process.env.API_URL + "/api/v1.0/device/" + device_id;
+    let url = API_URL + "/api/v1.0/device/" + device_id;
     let dataToSend = {
       state: state,
       synchronized: false

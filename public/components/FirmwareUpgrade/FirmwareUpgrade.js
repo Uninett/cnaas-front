@@ -10,6 +10,9 @@ import getData from "../../utils/getData";
 const io = require("socket.io-client");
 var socket = null;
 
+const API_URL = process.env.API_URL || '';
+const FIRMWARE_URL = process.env.FIRMWARE_URL || '';
+
 class FirmwareUpgrade extends React.Component {
   state = {
     step2totalCount: 0,
@@ -74,7 +77,7 @@ class FirmwareUpgrade extends React.Component {
 
   pollJobStatus = (job_id, step) => {
     const credentials = localStorage.getItem("token");
-    let url = process.env.API_URL + `/api/v1.0/job/${job_id}`;
+    let url = API_URL + `/api/v1.0/job/${job_id}`;
 
     if (step == 2) {
       getData(url, credentials).then(data => {
@@ -154,13 +157,13 @@ class FirmwareUpgrade extends React.Component {
 
   firmwareUpgradeStart = (step, filename, startAt) => {
     const credentials = localStorage.getItem("token");
-    let url = process.env.API_URL + "/api/v1.0/firmware/upgrade";
+    let url = API_URL + "/api/v1.0/firmware/upgrade";
     let dataToSend = this.getCommitTarget();
-    if (process.env.FIRMWARE_URL !== undefined && typeof process.env.FIRMWARE_URL === 'string' &&
-        process.env.FIRMWARE_URL.startsWith('http')) {
-      dataToSend["url"] = process.env.FIRMWARE_URL;
+    if (FIRMWARE_URL !== undefined && typeof FIRMWARE_URL === 'string' &&
+        FIRMWARE_URL.startsWith('http')) {
+      dataToSend["url"] = FIRMWARE_URL;
     } else {
-      dataToSend["url"] = process.env.API_URL + "/firmware/";
+      dataToSend["url"] = API_URL + "/firmware/";
     }
     dataToSend["comment"] = this.state.job_comment;
     dataToSend["ticket_ref"] = this.state.job_ticket_ref;
@@ -268,7 +271,7 @@ class FirmwareUpgrade extends React.Component {
     } else {
       throw 'Invalid argument passed to firmwareUpgradeAbort';
     }
-    let url = process.env.API_URL + "/api/v1.0/job/" + jobId;
+    let url = API_URL + "/api/v1.0/job/" + jobId;
 
     console.log("Aborting firmware upgrade job step "+step);
 
@@ -291,7 +294,7 @@ class FirmwareUpgrade extends React.Component {
 
   componentDidMount(){
     const credentials = localStorage.getItem("token");
-    socket = io(process.env.API_URL, {query: {jwt: credentials}});
+    socket = io(API_URL, {query: {jwt: credentials}});
     socket.on('connect', function(data) {
       console.log('Websocket connected!');
       var ret = socket.emit('events', {'loglevel': 'DEBUG'});

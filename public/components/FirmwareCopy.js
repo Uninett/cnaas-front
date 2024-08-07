@@ -5,6 +5,8 @@ import { Icon, Popup } from "semantic-ui-react";
 import getData from "../utils/getData";
 import FirmwareCopyForm from "./FirmwareCopyForm";
 
+const API_URL = process.env.API_URL || '';
+
 class FirmwareCopy extends React.Component {
   state = {
     firmwareRepoData: [],
@@ -28,7 +30,7 @@ class FirmwareCopy extends React.Component {
 
   getFirmwareFiles() {
     const credentials = localStorage.getItem("token");
-    let url = process.env.API_URL + "/api/v1.0/firmware";
+    let url = API_URL + "/api/v1.0/firmware";
     getData(url, credentials).then(data => {
       console.log("this should be NMS data", data);
       {

@@ -12,6 +12,8 @@ import "../styles/main.css";
 
 export const history = createBrowserHistory();
 
+const API_URL = process.env.API_URL || '';
+
 class App extends React.Component {
   state = {
     loginMessage: "",
@@ -20,7 +22,7 @@ class App extends React.Component {
 
   login = (email, password) => {
     event.preventDefault();
-    const url = process.env.API_URL + "/api/v1.0/auth";
+    const url = API_URL + "/api/v1.0/auth";
     fetch(url, {
       method: "POST",
       headers: {"Authorization": 'Basic ' + btoa(email + ":" + password) }

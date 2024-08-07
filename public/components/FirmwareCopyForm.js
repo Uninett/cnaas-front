@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import { Button, Icon } from 'semantic-ui-react'
 import checkResponseStatus from "../utils/checkResponseStatus";
 
+const API_URL = process.env.API_URL || '';
+
 class FirmwareCopyForm extends React.Component {
   state = {
       copyJobId: null,
@@ -14,7 +16,7 @@ class FirmwareCopyForm extends React.Component {
     e.preventDefault();
     console.log("copy submitted: "+this.props.filename);
     const credentials = localStorage.getItem("token");
-    let url = process.env.API_URL + "/api/v1.0/firmware";
+    let url = API_URL + "/api/v1.0/firmware";
     let dataToSend = {
       url: "https://firmware.cnaas.sunet.se/firmware/"+this.props.filename,
       sha1: this.props.sha1sum,
@@ -47,7 +49,7 @@ class FirmwareCopyForm extends React.Component {
     e.preventDefault();
     console.log("remove submitted: "+this.props.filename);
     const credentials = localStorage.getItem("token");
-    let url = process.env.API_URL + "/api/v1.0/firmware/" + this.props.filename;
+    let url = API_URL + "/api/v1.0/firmware/" + this.props.filename;
 
     fetch(url, {
       method: "DELETE",
